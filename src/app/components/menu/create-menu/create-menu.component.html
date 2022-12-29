@@ -1,0 +1,35 @@
+<mat-card >
+  <div class="container">
+    <h3>Crear Menu</h3>
+  </div>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="createMenuForm">
+  <div class="row container" style="text-align: center;">
+    <div class="col-12">
+      <div class="row">
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="fill">
+          <mat-label>Categoria</mat-label>
+          <mat-select formControlName="category">
+            <mat-option [value]="category" *ngFor="let category of categories" >{{
+              category.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      
+        
+      </div>
+      <div class="container" style="display: flex;">
+        <button mat-raised-button color="primary" type="submit">Crear Menu</button>
+      </div>
+    </div>
+  
+</form>
+</mat-card>
+

@@ -1,0 +1,15 @@
+<div class="container">
+  <ul class="pagination" style="overflow: scroll;">
+    <li class="page-item" *ngIf="paginator.number > 0">
+        <button class="btn btn-primary" [routerLink]="['/products/page', paginator.number-1]"><i class="bi bi-skip-backward"></i></button>
+      </li>
+    <li class="page-item" *ngFor="let page of pages" [ngClass]="page-1==paginator.number-1?'disable':''">
+        <button style="width: 44px;" class="btn btn-primary" *ngIf="page-1==paginator.number-1">{{page}}</button>
+        <button style="width: 44px;" *ngIf="page!=paginator.number" class=" btn btn-outline-primary m-1" [routerLink]="['/products/page', page]">{{ page }}</button>
+        </li>
+
+        <li class="page-item" *ngIf="paginator.number < paginator.totalPages-1">
+          <button class="btn btn-primary" [routerLink]="['/products/page', paginator.number+1]"><i class="bi bi-skip-forward"></i></button>
+        </li>
+  </ul>
+</div>

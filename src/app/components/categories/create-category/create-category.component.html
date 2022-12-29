@@ -1,0 +1,68 @@
+
+
+
+<div class="container" style="text-align: center;">
+
+
+        <div class="card container">
+          <div class="card-body">
+            <h5 class="card-title">Crear Categoría</h5>
+
+            <!-- General Form Elements -->
+            <form (ngSubmit)="onSubmit()" [formGroup]="createCategoryForm">
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">Nombre</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" formControlName = "name">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputEmail" class="col-sm-2 col-form-label">Descripción</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" formControlName="description">
+                </div>
+              </div>
+             
+             <!--  <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="file" id="formFile">
+                </div>
+              </div> -->
+
+              <!-- <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Menu</label>
+                <div class="col-sm-10">
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Submenu</label>
+                <div class="col-sm-10">
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+              </div> -->
+
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Submit Button</label>
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary">Crear Categoría</button>
+                </div>
+              </div>
+
+            </form><!-- End General Form Elements -->
+
+            </div>
+        </div>
+    </div>

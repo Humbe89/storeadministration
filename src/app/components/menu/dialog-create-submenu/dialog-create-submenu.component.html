@@ -1,0 +1,22 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="createSubmenuForm">
+    <div class="container">
+        <h2>Crear Submenu</h2>
+    </div>
+  <mat-grid-list cols="1" rowHeight="2:1">
+    <mat-grid-tile>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Categorias</mat-label>
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let category of categories" [value]="category">{{
+                category.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+    </mat-grid-tile>
+
+    
+  </mat-grid-list>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button  [mat-dialog-close]="data.animal" cdkFocusInitial type="submit">Crear</button>
+</form>
