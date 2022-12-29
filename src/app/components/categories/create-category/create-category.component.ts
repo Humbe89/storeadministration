@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/interfaces/category.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
+import { ModalCreateCategoryService } from 'src/app/services/modalCreateCategory/modal-create-category.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,11 +13,13 @@ import Swal from 'sweetalert2';
 })
 export class CreateCategoryComponent implements OnInit {
   createCategoryForm!: FormGroup;
+  @Output() newEventEmitter = new EventEmitter<any>();
 
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    public modalCreateCategoryService: ModalCreateCategoryService
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +33,11 @@ export class CreateCategoryComponent implements OnInit {
     });
   }
 
+  closeModal(){
+    this.modalCreateCategoryService.closeModal();
+    this.createCategoryForm.reset();
+  }
+
   onSubmit(): void {
     let category: Category = {
       name: this.createCategoryForm.get('name')?.value,
@@ -39,7 +47,8 @@ export class CreateCategoryComponent implements OnInit {
     this.categoryService.createCategory(category).subscribe((data) => {
       console.log(data)
       Swal.fire('Categoria', 'Creada con exito', 'success');
-      this.router.navigate(['categories']);
+      this.newEventEmitter.emit();
+      this.closeModal();
     });
   }
 }

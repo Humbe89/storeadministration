@@ -69,7 +69,7 @@ export class WorkProductComponent implements OnInit {
   }
 
   deleteProduct(id: any): void {
-    console.log("delete")
+    
     this.productService.deleteProduct(id).subscribe((data) => {
       console.log(data);
       this.productService.getProducts().subscribe((data: any) => {

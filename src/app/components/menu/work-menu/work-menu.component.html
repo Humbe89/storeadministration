@@ -1,12 +1,10 @@
+<app-create-menu *ngIf="flagCreateCategory" (newEventEmitter)="ngOnInit()"></app-create-menu>
+
+<app-update-menu *ngIf="menu" [menu]="menu"></app-update-menu>
 <mat-card>
-  <div class="container mb-2">
-    <button
-      mat-raised-button
-      color="primary"
-      type="button"
-      (click)="createMenu()"
-    >
-      <i class="bi bi-clipboard-plus-fill"></i>Añadir
+  <div class=" mb-2">
+    <button type="button" class="btn btn-primary" (click)="createMenu()">
+      <i class="bi bi-plus-circle"></i> Crear
     </button>
   </div>
 
@@ -39,14 +37,8 @@
         <td mat-cell *matCellDef="let element">
           <p *ngIf="element.category">{{ element.category.name }}</p>
           <p class="container mt-2" *ngIf="!element.category">
-            <button
-              mat-mini-fab
-              color="primary"
-              type="button"
-              (click)="openDialog(element.id)"
-              aria-label="Example icon button with a delete icon"
-            >
-              <mat-icon>add</mat-icon>
+            <button type="button" class="btn btn-primary" (click)="createMenu()">
+              <i class="bi bi-plus-circle"></i>
             </button>
           </p>
         </td>
@@ -58,14 +50,12 @@
         </th>
         <td mat-cell *matCellDef="let element">
           <button
-            mat-mini-fab
-            color="primary"
-            type="button"
-            (click)="updateCategory(element.id)"
-            aria-label="Example icon button with a delete icon"
-          >
-            <mat-icon>update</mat-icon>
-          </button>
+          type="button"
+          class="btn btn-primary"
+          (click)="updateCategory(element)"
+        >
+          <i class="bi bi-shield-fill-plus"></i>
+        </button>
         </td>
       </ng-container>
 
@@ -75,14 +65,12 @@
         </th>
         <td mat-cell *matCellDef="let element">
           <button
-            mat-mini-fab
-            color="warn"
-            type="button"
-            (click)="deleteMenu(element.id)"
-            aria-label="Example icon button with a home icon"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
+              type="button"
+              class="btn btn-danger"
+              (click)="deleteMenu(element.id)"
+            >
+              <i class="bi bi-x-lg"></i>
+            </button>
         </td>
       </ng-container>
 

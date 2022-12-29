@@ -41,6 +41,7 @@ export class CategoryService {
   }
 
   deleteCategory(id: number){
+    console.log("estoy en el servicio")
     return this.httpClient.delete(`${this.url}/${id}`);
   }
 

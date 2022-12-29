@@ -5,6 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Menu } from 'src/app/interfaces/menu.interface';
 import { MenuService } from 'src/app/services/menu/menu.service';
+import { ModalCreateMenuService } from 'src/app/services/modalCreateMenu/modal-create-menu.service';
+import { ModalUpdateMenuService } from 'src/app/services/modalUpdateMenu/modal-update-menu.service';
 import Swal from 'sweetalert2';
 import { DialogCreateSubmenuComponent } from '../dialog-create-submenu/dialog-create-submenu.component';
 
@@ -19,21 +21,14 @@ export class WorkMenuComponent implements OnInit {
   flag!: boolean;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   id!: any;
-  constructor(private menuService: MenuService, private router: Router, public dialog: MatDialog) {}
+  flagCreateCategory: boolean = false;
+  menu!: Menu; 
+  constructor(private menuService: MenuService, private router: Router,
+     public dialog: MatDialog, public modalCreateMenuService: ModalCreateMenuService,
+     public modalUpdateMenuService: ModalUpdateMenuService
+     ) {}
 
-  openDialog(id: number): void {
-
-    const dialogRef = this.dialog.open(DialogCreateSubmenuComponent, {
-      width: '300px',
-      height: '280px',
-      data: {id: id},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.id = result;
-    });
-  }
+  
 
   ngOnInit(): void {
     this.menuService.getMenus().subscribe((data: any) => {
@@ -47,11 +42,13 @@ export class WorkMenuComponent implements OnInit {
   ngAfterViewInit() {}
 
   public createMenu(): void {
-    this.router.navigate(['createmenu']);
+    this.flagCreateCategory = true;
+    this.modalCreateMenuService.openModal();
   }
 
-  public updateCategory(id: any): void {
-    this.router.navigate(['updatecategory', id]);
+  public updateCategory(menu: Menu): void {
+     this.menu = menu;
+     this.modalUpdateMenuService.openModal();
   }
 
   deleteMenu(id: any) {

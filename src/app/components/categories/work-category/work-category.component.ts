@@ -5,6 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router, Routes } from '@angular/router';
 import { Category } from 'src/app/interfaces/category.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
+import { ModalCreateCategoryService } from 'src/app/services/modalCreateCategory/modal-create-category.service';
+import { ModalUpdateCategoryService } from 'src/app/services/modalUpdateCategory/modal-update-category.service';
 import Swal from 'sweetalert2';
 import { DialogComponent } from '../dialog/dialog.component';
 
@@ -23,37 +25,19 @@ export class WorkCategoryComponent implements OnInit, AfterViewInit {
   ];
   categories!: MatTableDataSource<Category>;
 
-  category!: any;
- 
+  category!: Category;
+
+  flagModalCreate: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private categoryService: CategoryService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public modalCreateCategoryService: ModalCreateCategoryService,
+    public modalUpdateCategoryService: ModalUpdateCategoryService
   ) {}
-
-  openDialog(id: number) {
-    let dialogRef=null
-    this.categoryService.getCategoryById(id).subscribe((resp: any)=>{
-      this.category = resp;
-      dialogRef = this.dialog.open(DialogComponent, {
-        data: {category: this.category},
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-        this.category = result;
-      });
-    })
-  
-
-   
-  }
-    
-  
-
-
 
   /**
    * Para que me funcione el paginator tengo que inicializarlo en el
@@ -63,7 +47,7 @@ export class WorkCategoryComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe((data: any) => {
       this.categories = new MatTableDataSource<Category>(data);
-     
+
       console.log(this.categories);
       this.categories.paginator = this.paginator;
     });
@@ -72,26 +56,25 @@ export class WorkCategoryComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {}
 
   public createCategory(): void {
-    this.router.navigate(['createcategory']);
+    this.flagModalCreate = true;
+    this.modalCreateCategoryService.openModal();
   }
 
-  public updateCategory(id: any): void {
-    this.router.navigate(['updatecategory', id]);
-  }
+  public updateCategory(category: Category): void {
+    this.category = category;
 
-  /**
-   * Una ves se halla borrado y se halla cargado la data ahi que volver a igualar el paginador
-   * @param id Parametro id para borrar
-   */
+    this.modalUpdateCategoryService.openModal();
+  }
 
   deleteCategory(id: any) {
-    console.log('first');
+    
     this.categoryService.deleteCategory(id).subscribe((data) => {
-      console.log(data);
-      Swal.fire('Categoria', 'Eliminada con exito', 'success');
+      
+   console.log(data)
       this.categoryService.getCategories().subscribe((data: any) => {
-        this.categories = data;
+        this.categories = new MatTableDataSource<Category>(data)
         this.categories.paginator = this.paginator;
+        Swal.fire('Categoria', 'Eliminada con exito', 'success');
       });
     });
   }

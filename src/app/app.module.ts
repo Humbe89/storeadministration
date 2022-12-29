@@ -34,6 +34,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { DialogCreateSubmenuComponent } from './components/menu/dialog-create-submenu/dialog-create-submenu.component';
+import { UpdateMenuComponent } from './components/menu/update-menu/update-menu.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { DialogCreateSubmenuComponent } from './components/menu/dialog-create-su
          DetailProductComponent,
          DialogComponent,
          DialogCreateSubmenuComponent,
+         UpdateMenuComponent,
   ],
   imports: [
     BrowserModule,

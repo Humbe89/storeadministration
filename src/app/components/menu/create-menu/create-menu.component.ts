@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/interfaces/category.interface';
@@ -6,7 +6,9 @@ import { Menu } from 'src/app/interfaces/menu.interface';
 import { Submenu } from 'src/app/interfaces/submenu.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { MenuService } from 'src/app/services/menu/menu.service';
+import { ModalCreateMenuService } from 'src/app/services/modalCreateMenu/modal-create-menu.service';
 import { SubmenuService } from 'src/app/services/submenu/submenu.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-menu',
@@ -16,12 +18,14 @@ import { SubmenuService } from 'src/app/services/submenu/submenu.service';
 export class CreateMenuComponent implements OnInit {
   categories!: Array<Category>;
   createMenuForm!: FormGroup;
+  @Output() newEventEmitter = new EventEmitter<any>();
 
   constructor(
     private categoryService: CategoryService,
     private formBuilder: FormBuilder,
     private menuService: MenuService,
-    private router: Router
+    private router: Router,
+    public modalCreateMenuService: ModalCreateMenuService
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +41,12 @@ export class CreateMenuComponent implements OnInit {
       name: [''],
       category: [''],
     });
+  }
+
+  closeModal(){
+    
+    this.modalCreateMenuService.closeModal();
+
   }
 
   onSubmit(): void {
@@ -57,7 +67,9 @@ export class CreateMenuComponent implements OnInit {
 
     this.menuService.createMenu(menu).subscribe(data=>{
       console.log(data);
-      this.router.navigate(['menus']);
+      Swal.fire('Menu', 'Creado con exito', 'success');
+      this.newEventEmitter.emit();
+      this.closeModal();
     })
       
     }

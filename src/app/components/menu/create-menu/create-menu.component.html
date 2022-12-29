@@ -1,35 +1,61 @@
-<mat-card >
-  <div class="container">
-    <h3>Crear Menu</h3>
-  </div>
+<!-- Basic Modal -->
+<div
+  *ngIf="modalCreateMenuService.modal"
+  class="modal"
+  style="display: block"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crear Menu</h5>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="closeModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Multi Columns Form -->
+        <form
+          class="row g-3"
+          (ngSubmit)="onSubmit()"
+          [formGroup]="createMenuForm"
+        >
+          <div class="col-md-6">
+            <label for="name" class="form-label">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              formControlName="name"
+            />
+          </div>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="createMenuForm">
-  <div class="row container" style="text-align: center;">
-    <div class="col-12">
-      <div class="row">
-        <mat-form-field appearance="fill">
-          <mat-label>Nombre</mat-label>
-          <input matInput formControlName="name" />
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="fill">
-          <mat-label>Categoria</mat-label>
-          <mat-select formControlName="category">
-            <mat-option [value]="category" *ngFor="let category of categories" >{{
-              category.name
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      
-        
-      </div>
-      <div class="container" style="display: flex;">
-        <button mat-raised-button color="primary" type="submit">Crear Menu</button>
+          <div class="col-12">
+            <label for="category" class="form-label">Categoria</label>
+          <select id="category" class="form-select" formControlName="category">
+            <option selected *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
+            
+          </select>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="closeModal()"
+            >
+              Cerrar
+            </button>
+            <button type="submit" class="btn btn-primary">Crear</button>
+          </div>
+        </form>
+        <!-- End Multi Columns Form -->
       </div>
     </div>
-  
-</form>
-</mat-card>
+  </div>
+</div>
+<!-- End Basic Modal-->
+
 
