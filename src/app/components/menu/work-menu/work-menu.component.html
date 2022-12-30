@@ -1,6 +1,6 @@
 <app-create-menu *ngIf="flagCreateCategory" (newEventEmitter)="ngOnInit()"></app-create-menu>
 
-<app-update-menu *ngIf="menu" [menu]="menu"></app-update-menu>
+<app-update-menu *ngIf="menu" [menu]="menu" (newEventEmitter)="ngOnInit()"></app-update-menu>
 <mat-card>
   <div class=" mb-2">
     <button type="button" class="btn btn-primary" (click)="createMenu()">

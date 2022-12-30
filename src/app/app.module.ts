@@ -10,7 +10,7 @@ import { APP_ROUTING } from './app.routes';
 import { WorkCategoryComponent } from './components/categories/work-category/work-category.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateCategoryComponent } from './components/categories/create-category/create-category.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WorkProductComponent } from './components/products/work-product/work-product.component';
 import { CreateProductComponent } from './components/products/create-product/create-product.component';
 import { UpdateCategoryComponent } from './components/categories/update-category/update-category.component';
@@ -35,6 +35,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { DialogCreateSubmenuComponent } from './components/menu/dialog-create-submenu/dialog-create-submenu.component';
 import { UpdateMenuComponent } from './components/menu/update-menu/update-menu.component';
+import { DetailCategoryComponent } from './components/categories/detail-category/detail-category.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { UpdateMenuComponent } from './components/menu/update-menu/update-menu.c
          DialogComponent,
          DialogCreateSubmenuComponent,
          UpdateMenuComponent,
+         DetailCategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,7 +79,8 @@ import { UpdateMenuComponent } from './components/menu/update-menu/update-menu.c
     MatGridListModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

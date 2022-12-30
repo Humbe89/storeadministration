@@ -20,6 +20,8 @@ export class CreateMenuComponent implements OnInit {
   createMenuForm!: FormGroup;
   @Output() newEventEmitter = new EventEmitter<any>();
 
+  activateCategory: boolean = false;
+
   constructor(
     private categoryService: CategoryService,
     private formBuilder: FormBuilder,
@@ -43,36 +45,31 @@ export class CreateMenuComponent implements OnInit {
     });
   }
 
-  closeModal(){
-    
+  closeModal() {
     this.modalCreateMenuService.closeModal();
-
   }
 
   onSubmit(): void {
     let menu: Menu;
     let category: Category;
-    if(this.createMenuForm.get('category')?.value == ''){
-       menu ={
-        name: this.createMenuForm.get('name')?.value,
-        
-      }
-    }else{
-      category = this.createMenuForm.get('category')?.value;
-       menu = {
-        name: category.name,
-        category: this.createMenuForm.get('category')?.value
-      }
-    }
 
-    this.menuService.createMenu(menu).subscribe(data=>{
+    if (this.activateCategory == false) {
+      menu = {
+        name: this.createMenuForm.get('name')?.value,
+      };
+    } else {
+      category = this.createMenuForm.get('category')?.value;
+      menu = {
+        name: category.name,
+        category: this.createMenuForm.get('category')?.value,
+      };
+    }
+    this.menuService.createMenu(menu).subscribe((data) => {
       console.log(data);
       Swal.fire('Menu', 'Creado con exito', 'success');
       this.newEventEmitter.emit();
+      console.log(menu);
       this.closeModal();
-    })
-      
-    }
-   
+    });
   }
-
+}

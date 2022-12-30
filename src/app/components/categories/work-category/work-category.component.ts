@@ -6,6 +6,7 @@ import { Router, Routes } from '@angular/router';
 import { Category } from 'src/app/interfaces/category.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { ModalCreateCategoryService } from 'src/app/services/modalCreateCategory/modal-create-category.service';
+import { ModalDetailCategoryService } from 'src/app/services/modalDetailCategory/modal-detail-category.service';
 import { ModalUpdateCategoryService } from 'src/app/services/modalUpdateCategory/modal-update-category.service';
 import Swal from 'sweetalert2';
 import { DialogComponent } from '../dialog/dialog.component';
@@ -29,6 +30,7 @@ export class WorkCategoryComponent implements OnInit, AfterViewInit {
 
   flagModalCreate: boolean = false;
 
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
@@ -36,7 +38,8 @@ export class WorkCategoryComponent implements OnInit, AfterViewInit {
     private router: Router,
     public dialog: MatDialog,
     public modalCreateCategoryService: ModalCreateCategoryService,
-    public modalUpdateCategoryService: ModalUpdateCategoryService
+    public modalUpdateCategoryService: ModalUpdateCategoryService,
+    public modalDetailCategoryService: ModalDetailCategoryService
   ) {}
 
   /**
@@ -54,6 +57,11 @@ export class WorkCategoryComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {}
+
+  openModal(category: Category){
+    this.category = category;
+    this.modalDetailCategoryService.openModal();
+  }
 
   public createCategory(): void {
     this.flagModalCreate = true;

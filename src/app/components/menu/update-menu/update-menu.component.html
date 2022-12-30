@@ -1,4 +1,6 @@
 <!-- Basic Modal -->
+
+
 <div
   *ngIf="modalUpdateMenuService.modal"
   class="modal"
@@ -7,7 +9,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Crear Menu</h5>
+        <h5 class="modal-title">Actualizar Menu</h5>
         <button
           type="button"
           class="btn-close"
@@ -16,27 +18,62 @@
         ></button>
       </div>
       <div class="modal-body">
+
+        <div class="">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="active" [(ngModel)]="activatedCategory" name="active">
+            <label class="form-check-label" for="active">
+              Activar o Desactivar Categoria
+            </label>
+          </div>
+        </div>
+
+        
         <!-- Multi Columns Form -->
         <form
           class="row g-3"
           (ngSubmit)="onSubmit()"
           [formGroup]="updateMenuForm"
         >
-          <div class="col-md-6">
+          <div  *ngIf="flag==true && activatedCategory==false" class="col-md-6">
+            <label for="name" class="form-label">Nombre</label>
+            <input
+              type="text"
+              
+              class="form-control"
+              id="name"
+              formControlName="name"
+              
+            />
+          </div>
+
+          <div  *ngIf="flag==false && activatedCategory==false" class="col-md-6">
             <label for="name" class="form-label">Nombre</label>
             <input
               type="text"
               class="form-control"
               id="name"
               formControlName="name"
+              disable
             />
           </div>
 
-          <div class="col-12">
+          <div *ngIf="flag==false && activatedCategory==true" class="col-12">
             <label for="category" class="form-label">Categoria</label>
-          <select id="category" class="form-select" formControlName="category">
-            <option selected *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
-            <option value="">{{null}}</option>
+          <select id="category" class="form-select" aria-label="Default select example" formControlName="category">
+            <option *ngFor="let catName of categories" >{{catName.name}}</option>
+            
+             <!-- <option   *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option> -->
+           
+          </select>
+          </div>
+          <div *ngIf="flag==true && activatedCategory==true" class="col-12">
+            <label for="category" class="form-label">Categoria</label>
+          <select id="category" class="form-select" aria-label="Default select example" formControlName="category">
+            <option  [selected]="menu.category?.name" >{{menu.category?.name}}</option>
+            
+            
+           
           </select>
           </div>
 
@@ -48,7 +85,7 @@
             >
               Cerrar
             </button>
-            <button type="submit" class="btn btn-primary">Crear</button>
+            <button type="submit" class="btn btn-primary">Actualizar</button>
           </div>
         </form>
         <!-- End Multi Columns Form -->

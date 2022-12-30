@@ -1,7 +1,7 @@
 
 <app-update-category *ngIf="category" [category]="category" (newEventEmitter)="ngOnInit()"></app-update-category>
 <app-create-category *ngIf="flagModalCreate" (newEventEmitter)="ngOnInit()"></app-create-category>
-
+<app-detail-category  *ngIf="category" [category]="category"></app-detail-category>
 
 <div class="card">
   <div class="card-body">
@@ -26,7 +26,7 @@
           No
         </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-button >
+          <button mat-button (click)="openModal(element)">
             {{ element.id }}
           </button>
         </td>
