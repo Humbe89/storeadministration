@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Category } from 'src/app/interfaces/category.interface';
 import { Product } from 'src/app/interfaces/product.interface';
+import { CategoryService } from 'src/app/services/category/category.service';
 import { ProductService } from 'src/app/services/product/product.service';
 
 @Component({
@@ -14,12 +15,21 @@ import { ProductService } from 'src/app/services/product/product.service';
 export class TestTableComponent implements OnInit {
 
   categories: Array<Category> = [];
-  flag: boolean = true;
-
+  name: string = "pepe";
+  category!:Category;
+  flag!: boolean;
   
-  constructor(private productService: ProductService) {}
+  constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
+    this.categoryService.getCategoriesWithMenuOrSubmenuNull().subscribe(data=>{
+      console.log(data)
+      this.categories = data;
+    })
+  }
+
+  onSubmit(form: any){
+    console.log(form)
     
   }
 

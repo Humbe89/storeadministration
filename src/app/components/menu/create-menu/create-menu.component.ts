@@ -32,7 +32,7 @@ export class CreateMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.createMenuForm = this.initForm();
-    this.categoryService.getCategories().subscribe((data) => {
+    this.categoryService.getCategoriesWithMenuOrSubmenuNull().subscribe((data) => {
       this.categories = data;
       console.log(this.categories);
     });
@@ -67,9 +67,14 @@ export class CreateMenuComponent implements OnInit {
     this.menuService.createMenu(menu).subscribe((data) => {
       console.log(data);
       Swal.fire('Menu', 'Creado con exito', 'success');
-      this.newEventEmitter.emit();
+      
       console.log(menu);
       this.closeModal();
+      this.categoryService.getCategoriesWithMenuOrSubmenuNull().subscribe(data=>{
+        this.categories = data;
+        this.newEventEmitter.emit();
+      })
+    
     });
   }
 }

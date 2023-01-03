@@ -4,8 +4,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Menu } from 'src/app/interfaces/menu.interface';
+import { Submenu } from 'src/app/interfaces/submenu.interface';
 import { MenuService } from 'src/app/services/menu/menu.service';
 import { ModalCreateMenuService } from 'src/app/services/modalCreateMenu/modal-create-menu.service';
+import { ModalCreateSubmenuService } from 'src/app/services/modalCreateSubmenu/modal-create-submenu.service';
 import { ModalUpdateMenuService } from 'src/app/services/modalUpdateMenu/modal-update-menu.service';
 import Swal from 'sweetalert2';
 import { DialogCreateSubmenuComponent } from '../dialog-create-submenu/dialog-create-submenu.component';
@@ -23,9 +25,11 @@ export class WorkMenuComponent implements OnInit {
   id!: any;
   flagCreateCategory: boolean = false;
   menu!: Menu; 
+  menuAux!: Menu; 
   constructor(private menuService: MenuService, private router: Router,
      public dialog: MatDialog, public modalCreateMenuService: ModalCreateMenuService,
-     public modalUpdateMenuService: ModalUpdateMenuService
+     public modalUpdateMenuService: ModalUpdateMenuService,
+     public modalCreateSubmenuService: ModalCreateSubmenuService
      ) {}
 
   
@@ -39,16 +43,23 @@ export class WorkMenuComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit() {}
+  
 
   public createMenu(): void {
     this.flagCreateCategory = true;
     this.modalCreateMenuService.openModal();
   }
 
-  public updateCategory(menu: Menu): void {
+  public updateMenu(menu: Menu): void {
      this.menu = menu;
      this.modalUpdateMenuService.openModal();
+  }
+
+  public createSubmenu(menu: Menu): void{
+
+    this.menuAux=menu;
+    console.log(this.menuAux)
+    this.modalCreateSubmenuService.openModal();
   }
 
   deleteMenu(id: any) {

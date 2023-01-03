@@ -51,4 +51,8 @@ export class CategoryService {
     formData.append("id", id);
     return this.httpClient.post<Category>(`${this.url}/upload`, formData);
   }
+  
+  getCategoriesWithMenuOrSubmenuNull():Observable<Category[]>{
+   return this.httpClient.get<Category[]>(`${this.url}/null`);
+  }
 }

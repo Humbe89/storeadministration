@@ -1,11 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/interfaces/category.interface';
+import { Menu } from 'src/app/interfaces/menu.interface';
 import { Submenu } from 'src/app/interfaces/submenu.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { MenuService } from 'src/app/services/menu/menu.service';
+import { ModalCreateSubmenuService } from 'src/app/services/modalCreateSubmenu/modal-create-submenu.service';
 import Swal from 'sweetalert2';
 import { DialogData } from '../../products/detail-product/detail-product.component';
 
@@ -16,55 +18,47 @@ import { DialogData } from '../../products/detail-product/detail-product.compone
 })
 export class DialogCreateSubmenuComponent implements OnInit {
   categories!: Array<Category>;
-  createSubmenuForm!: FormGroup;
-  id!: number;
+  category!: Category;
+  @Input() menuAux!: Menu;
+  id!: any;
+  @Output() newEventEmitter = new EventEmitter<any>();
 
   constructor(
-    public dialogRef: MatDialogRef<DialogCreateSubmenuComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
     private categoryService: CategoryService,
-    private formBuilder: FormBuilder,
     private menuService: MenuService,
-    private router: Router
+    public modalCreateSubmenuService: ModalCreateSubmenuService
   ) {}
 
   ngOnInit(): void {
-    this.createSubmenuForm = this.initForm();
-    this.id = this.data.id;
-    console.log(this.id);
-    this.categoryService.getCategories().subscribe((data: any) => {
-      this.categories = data;
-      console.log(this.categories);
-    });
+    this.id = this.menuAux.id;
+    console.log(this.menuAux);
+    this.categoryService
+      .getCategoriesWithMenuOrSubmenuNull()
+      .subscribe((data) => {
+        this.categories = data;
+      });
   }
 
-  initForm(): FormGroup {
-    return this.formBuilder.group({
-      name: [''],
-      category: [''],
-    });
+  closeModal() {
+    this.modalCreateSubmenuService.closeModal();
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+  onSubmit(form: any) {
+    console.log(form);
 
-  onSubmit() {
-    console.log(this.createSubmenuForm.value);
-    let submenu: Submenu;
-    let category: Category = this.createSubmenuForm.get('category')?.value;
-
-    submenu = {
-      name: category.name,
-      category: category,
+    let submenu: Submenu = {
+      name: form.form.controls.category.value.name,
+      category: form.form.controls.category.value,
     };
     console.log(submenu);
-
     this.menuService.addSubmenu(submenu, this.id).subscribe((data) => {
-      console.log(data);
-  
-      //this.router.navigate(['menus']);
+      this.categoryService
+        .getCategoriesWithMenuOrSubmenuNull()
+        .subscribe((data) => {
+          this.categories = data;
+          this.modalCreateSubmenuService.closeModal();
+          this.newEventEmitter.emit();
+        });
     });
-    //Swal.fire('Submenu', 'Creado con exito', 'success');
   }
 }

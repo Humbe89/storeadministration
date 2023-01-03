@@ -1,37 +1,55 @@
-<!-- Basic Modal -->
-<form action="">
+<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+  <div class="">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="active"
+        name="active"
+        [(ngModel)]="flag"
+      />
+      <label class="form-check-label" for="active">
+        Activar o Desactivar Categoria
+      </label>
+    </div>
+  </div>
 
-        <div class="">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="active" [(ngModel)]="flag" name="active">
-            <label class="form-check-label" for="active">
-              Activar o Desactivar Categoria
-            </label>
-          </div>
-        </div>
+  <div class="col-md-6">
+    <label for="name" class="form-label">Nombre</label>
+    <input
+      [disabled]="flag"
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      [(ngModel)]="name"
+      required
+      minlength="3"
+      
+    />
+    <p *ngIf="form.form.controls['name'].errors?.['required']">Campo requerido</p>
+    <p *ngIf="form.form.controls['name'].errors?.['minlength']">Tiene que ser mayor de 3 caracteres</p>
+  </div>
 
-          
-
-          <div   class="col-md-6">
-            <label for="name" class="form-label">Nombre</label>
-            <input  [disabled]="true" 
-              type="text"
-              class="form-control"
-              id="name"
-              formControlName="name"
-            />
-          </div>
-
-          <div  class="col-12">
-            <label for="category" class="form-label">Categoria</label>
-          <select id="category" class="form-select" aria-label="Default select example" formControlName="category">
-            <option *ngFor="let catName of categories" >{{catName.name}}</option>
-            
-             <!-- <option   *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option> -->
-           
-          </select>
-          </div>
-         
-        </form>
-
-
+  <div class="col-12">
+    <label for="category" class="form-label">Categoria</label>
+    <select
+      id="category"
+      class="form-select"
+      [disabled]="!flag"
+      aria-label="Default select example"
+      name="category"
+      [(ngModel)]="category"
+      
+    >
+      <option
+        *ngFor="let catName of categories"
+        [selected]="categories[0]"
+        [ngValue]="catName"
+      >
+        {{ catName.name }}
+      </option>
+    </select>
+    <button type="submit" class="btn btn-primary mt-2">Test</button>
+  </div>
+</form>
