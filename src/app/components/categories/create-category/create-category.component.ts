@@ -1,9 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Category } from 'src/app/interfaces/category.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
-import { ModalCreateCategoryService } from 'src/app/services/modalCreateCategory/modal-create-category.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,39 +15,41 @@ export class CreateCategoryComponent implements OnInit {
   @Output() newEventEmitter = new EventEmitter<any>();
 
   constructor(
+    public dialogRef: MatDialogRef<CreateCategoryComponent>,
     private formBuilder: FormBuilder,
-    private categoryService: CategoryService,
-    private router: Router,
-    public modalCreateCategoryService: ModalCreateCategoryService
+    private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
     this.createCategoryForm = this.initForm();
+    console.log(this.createCategoryForm);
   }
 
   initForm(): FormGroup {
     return this.formBuilder.group({
-      name: [''],
-      description: [''],
+      name: ['', [Validators.minLength(4), Validators.required]],
+      description: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
 
-  closeModal(){
-    this.modalCreateCategoryService.closeModal();
-    this.createCategoryForm.reset();
+  closeDialogCreate(): void {
+    this.dialogRef.close();
   }
 
   onSubmit(): void {
-    let category: Category = {
-      name: this.createCategoryForm.get('name')?.value,
-      description: this.createCategoryForm.get('description')?.value,
-    };
+    if (this.createCategoryForm.invalid) {
+      Swal.fire('Formulario', 'Invalido', 'error');
+    } else {
+      let category: Category = {
+        name: this.createCategoryForm.get('name')?.value,
+        description: this.createCategoryForm.get('description')?.value,
+      };
 
-    this.categoryService.createCategory(category).subscribe((data) => {
-      console.log(data)
-      Swal.fire('Categoria', 'Creada con exito', 'success');
-      this.newEventEmitter.emit();
-      this.closeModal();
-    });
+      this.categoryService.createCategory(category).subscribe((data) => {
+        Swal.fire('Categoria', 'Creada con exito', 'success');
+        this.newEventEmitter.emit();
+        this.closeDialogCreate();
+      });
+    }
   }
 }

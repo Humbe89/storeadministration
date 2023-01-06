@@ -3,15 +3,6 @@
   [product]="productDetail"
 ></app-detail-product>
 
-<app-create-product
-  *ngIf="flagModalCreate"
-  (newItemEvent)="ngOnInit()"
-></app-create-product>
-<app-update-product
-  *ngIf="productUpdate"
-  [product]="productUpdate"
-  (newEventEmiter)="ngOnInit()"
-></app-update-product>
 
 <!-- Default Card -->
 <div class="card">
@@ -20,7 +11,7 @@
       Listado de Productos
     </h3>
     <div class="mb-2">
-      <button type="button" class="btn btn-primary" (click)="createProduct()">
+      <button type="button" class="btn btn-primary" (click)="openCreateProduct()">
         <i class="bi bi-plus-circle"></i> Crear
       </button>
     </div>
@@ -36,7 +27,7 @@
             No
           </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-button (click)="showDetail(element)">
+            <button mat-button (click)="openDetailProduct(element)">
               {{ element.id }}
             </button>
           </td>
@@ -73,7 +64,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              (click)="updateProduct(element)"
+              (click)="openUpdateProduct(element)"
             >
               <i class="bi bi-shield-fill-plus"></i>
             </button>

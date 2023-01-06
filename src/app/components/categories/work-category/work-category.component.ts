@@ -2,14 +2,15 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router, Routes } from '@angular/router';
 import { Category } from 'src/app/interfaces/category.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { ModalCreateCategoryService } from 'src/app/services/modalCreateCategory/modal-create-category.service';
 import { ModalDetailCategoryService } from 'src/app/services/modalDetailCategory/modal-detail-category.service';
 import { ModalUpdateCategoryService } from 'src/app/services/modalUpdateCategory/modal-update-category.service';
 import Swal from 'sweetalert2';
-import { DialogComponent } from '../dialog/dialog.component';
+import { CreateCategoryComponent } from '../create-category/create-category.component';
+import { DetailCategoryComponent } from '../detail-category/detail-category.component';
+import { UpdateCategoryComponent } from '../update-category/update-category.component';
 
 @Component({
   selector: 'app-work-category',
@@ -28,14 +29,12 @@ export class WorkCategoryComponent implements OnInit, AfterViewInit {
 
   category!: Category;
 
-  flagModalCreate: boolean = false;
-
+  
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private categoryService: CategoryService,
-    private router: Router,
     public dialog: MatDialog,
     public modalCreateCategoryService: ModalCreateCategoryService,
     public modalUpdateCategoryService: ModalUpdateCategoryService,
@@ -50,37 +49,60 @@ export class WorkCategoryComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe((data: any) => {
       this.categories = new MatTableDataSource<Category>(data);
-
-      console.log(this.categories);
       this.categories.paginator = this.paginator;
+    });
+  }
+
+  openCreateCategory(): void {
+    const dialogRef = this.dialog.open(CreateCategoryComponent, {
+      width: '550px',
+      height: '400',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.categoryService.getCategories().subscribe((data: any) => {
+        this.categories = new MatTableDataSource<Category>(data);
+        console.log(this.categories);
+        this.categories.paginator = this.paginator;
+      });
     });
   }
 
   ngAfterViewInit(): void {}
 
-  openModal(category: Category){
-    this.category = category;
-    this.modalDetailCategoryService.openModal();
+ 
+
+  openUpdateCategory(category: Category): void {
+    const dialogRef = this.dialog.open(UpdateCategoryComponent, {
+      width: '550px',
+      height: '400',
+      data: { category: category },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
   }
 
-  public createCategory(): void {
-    this.flagModalCreate = true;
-    this.modalCreateCategoryService.openModal();
-  }
+  openDetailCategory(category: Category): void {
+    const dialogRef = this.dialog.open(DetailCategoryComponent, {
+      width: '550px',
+      height: '400',
+      data: { category: category },
+    });
 
-  public updateCategory(category: Category): void {
-    this.category = category;
-
-    this.modalUpdateCategoryService.openModal();
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
   }
 
   deleteCategory(id: any) {
-    
     this.categoryService.deleteCategory(id).subscribe((data) => {
-      
-   console.log(data)
       this.categoryService.getCategories().subscribe((data: any) => {
-        this.categories = new MatTableDataSource<Category>(data)
+        this.categories = new MatTableDataSource<Category>(data);
         this.categories.paginator = this.paginator;
         Swal.fire('Categoria', 'Eliminada con exito', 'success');
       });

@@ -11,6 +11,11 @@ import { ModalCreateSubmenuService } from 'src/app/services/modalCreateSubmenu/m
 import { ModalUpdateMenuService } from 'src/app/services/modalUpdateMenu/modal-update-menu.service';
 import Swal from 'sweetalert2';
 import { DialogCreateSubmenuComponent } from '../dialog-create-submenu/dialog-create-submenu.component';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { TestTableComponent } from '../../testTable/test-table/test-table.component';
+import { style } from '@angular/animations';
+import { CreateMenuComponent } from '../create-menu/create-menu.component';
+import { UpdateMenuComponent } from '../update-menu/update-menu.component';
 
 @Component({
   selector: 'app-work-menu',
@@ -26,10 +31,12 @@ export class WorkMenuComponent implements OnInit {
   flagCreateCategory: boolean = false;
   menu!: Menu; 
   menuAux!: Menu; 
+  modalRef: MdbModalRef<TestTableComponent> | null = null;
   constructor(private menuService: MenuService, private router: Router,
      public dialog: MatDialog, public modalCreateMenuService: ModalCreateMenuService,
      public modalUpdateMenuService: ModalUpdateMenuService,
-     public modalCreateSubmenuService: ModalCreateSubmenuService
+     public modalCreateSubmenuService: ModalCreateSubmenuService,
+     private modalService: MdbModalService
      ) {}
 
   
@@ -37,40 +44,60 @@ export class WorkMenuComponent implements OnInit {
   ngOnInit(): void {
     this.menuService.getMenus().subscribe((data: any) => {
       this.menus = new MatTableDataSource<any>(data);
-      console.log(data);
-      console.log(this.menus);
       this.menus.paginator = this.paginator;
+      console.log(this.menus)
     });
   }
 
-  
+  openCreateMenu(): void {
+    const dialogRef = this.dialog.open(CreateMenuComponent, {
+      width: '550px',
+      height: '400',
+    });
 
-  public createMenu(): void {
-    this.flagCreateCategory = true;
-    this.modalCreateMenuService.openModal();
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
   }
+
+  openUpdateMenu(menu: Menu): void {
+    const dialogRef = this.dialog.open(UpdateMenuComponent, {
+      width: '550px',
+      height: '400',
+      data: { menu: menu },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
+  }
+
+  openCreateSubmenu(menu: Menu): void {
+    const dialogRef = this.dialog.open(DialogCreateSubmenuComponent, {
+      width: '550px',
+      height: '400',
+      data: { menu: menu },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
+  }
+
 
   public updateMenu(menu: Menu): void {
      this.menu = menu;
      this.modalUpdateMenuService.openModal();
   }
 
-  public createSubmenu(menu: Menu): void{
-
-    this.menuAux=menu;
-    console.log(this.menuAux)
-    this.modalCreateSubmenuService.openModal();
-  }
-
+  
   deleteMenu(id: any) {
-    console.log('first');
-    this.menuService.deleteMenu(id).subscribe((data) => {
-      console.log(data);
+    this.menuService.deleteMenu(id).subscribe((data) => {      
       Swal.fire('Menu', 'Eliminado con exito', 'success');
-      this.menuService.getMenus().subscribe((data: any) => {
-        this.menus = new MatTableDataSource<any>(data);
-        this.menus.paginator = this.paginator;
-      });
+      this.ngOnInit();
     });
   }
 }

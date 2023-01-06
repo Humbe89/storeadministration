@@ -37,7 +37,8 @@ export class MenuService {
       .put<Menu>(`${this.url}/${menu.id}`, menu)
       .pipe(
         map((data: any) => {
-          return data.Category;
+         
+          return data.Menu;
         })
       );
   }

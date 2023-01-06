@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from 'src/app/interfaces/category.interface';
 import { Product } from 'src/app/interfaces/product.interface';
@@ -15,7 +16,7 @@ import Swal from 'sweetalert2';
 })
 export class UpdateProductComponent implements OnInit {
   updateProductForm!: FormGroup;
-  @Input() product!: Product; 
+  product!: Product;
   @Output() newEventEmiter = new EventEmitter<any>();
 
   status: Array<string> = ['LOW', 'SPENT', 'FULL'];
@@ -24,34 +25,35 @@ export class UpdateProductComponent implements OnInit {
 
 
   constructor(
+    public dialogRef: MatDialogRef<UpdateProductComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private productService: ProductService,
     private categoryService: CategoryService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
     public modalUpdateService: ModalUpdateProductService
   ) {}
 
   ngOnInit(): void {
+    this.product = this.data.product;
+    console.log(this.product)
     this.updateProductForm = this.initForm();
      this.updateForm(this.product);
      this.categoryService.getCategories().subscribe(data=>{
       this.categories = data;
-      console.log(this.categories);
     })
   }
 
   initForm(): FormGroup {
     return this.formBuilder.group({
-      name: [''],
-      description: [''],
-      price: [''],
-      amount: [''],
-      discount: [''],
-      minStock: [''],
+      name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      price: ['', [Validators.required]],
+      amount: ['', [Validators.required]],
+      discount: ['', [Validators.required]],
+      minStock: ['', [Validators.required]],
       active: [''],
-      productstatus: [''],
-      category: [''],
+      productstatus: ['', [Validators.required]],
+      category: ['', [Validators.required]],
     });
   }
 
@@ -67,32 +69,40 @@ export class UpdateProductComponent implements OnInit {
       .get('productstatus')
       ?.setValue(product.productstatus);
     this.updateProductForm.get('category')?.setValue(product.category.name);
-    console.log(this.product.category.name);
+    
+  }
+
+  closeDialogUpdate(): void {
+    this.dialogRef.close();
   }
 
   onSubmit(): void {
-    let product: Product = {
-      id: this.product.id,
-      name: this.updateProductForm.get('name')?.value,
-      description: this.updateProductForm.get('description')?.value,
-      price: this.updateProductForm.get('price')?.value,
-      amount: this.updateProductForm.get('amount')?.value,
-      discount: this.updateProductForm.get('discount')?.value,
-      minStock: this.updateProductForm.get('minStock')?.value,
-      active: this.updateProductForm.get('active')?.value,
-      productstatus: this.updateProductForm.get('productstatus')?.value,
-      category: this.updateProductForm.get('category')?.value,
-    };
-    console.log(product);
-    this.productService.updateProduct(product).subscribe((data: any) => {
-      console.log(data.Product);
-      Swal.fire('Producto', 'Actualizado con exito', 'success');
-      this.newEventEmiter.emit();
-     this.closeModal();
-    });
+
+    if(this.updateProductForm.invalid){
+      Swal.fire('Formulario', 'Invalido', 'error');
+    }else{
+      let product: Product = {
+        id: this.product.id,
+        name: this.updateProductForm.get('name')?.value,
+        description: this.updateProductForm.get('description')?.value,
+        price: this.updateProductForm.get('price')?.value,
+        amount: this.updateProductForm.get('amount')?.value,
+        discount: this.updateProductForm.get('discount')?.value,
+        minStock: this.updateProductForm.get('minStock')?.value,
+        active: this.updateProductForm.get('active')?.value,
+        productstatus: this.updateProductForm.get('productstatus')?.value,
+        category: this.updateProductForm.get('category')?.value,
+      };
+      console.log(product);
+      this.productService.updateProduct(product).subscribe((data: any) => {
+        console.log(data.Product);
+        Swal.fire('Producto', 'Actualizado con exito', 'success');
+        this.newEventEmiter.emit();
+       this.closeDialogUpdate();
+      });
+    }
+
+    
   }
 
-  closeModal(){
-    this.modalUpdateService.closeModal();
-  }
 }

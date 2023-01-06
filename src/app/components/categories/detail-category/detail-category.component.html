@@ -1,4 +1,4 @@
-<div
+<!-- <div
   *ngIf="modalDetailCategoryService.modal"
   class="modal"
   tabindex="-1"
@@ -81,9 +81,78 @@
           class="btn btn-primary"
           data-bs-dismiss="modal"
         >
-          Close
+          Cerrar
         </button>
       </div>
     </div>
   </div>
+</div> -->
+
+<div class="row">
+<div class="col-11">
+  <h1 mat-dialog-title>Detalle Categoria</h1>
 </div>
+<div class="col-1">
+  <button
+  style="position: absolute;"
+          type="button"
+          (click)="closeDialogDetails()"
+          class="btn-close"
+          aria-label="Close"
+        ></button>
+</div>  
+</div>
+
+<div mat-dialog-content>
+  
+  <div class="row">
+    <div class="col-6">
+      <h2>Nombre: {{data.category.name}}</h2>
+    </div>
+   <div class="col-6">
+    <h3>Descripcion: {{data.category.description}}</h3>
+   </div>
+  </div>
+  <div class="row">
+
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <label for="formFile" class="form-label"
+                >Subir Foto del producto</label
+              >
+              <input
+                (change)="seleccionarFoto($event)"
+                class="form-control"
+                type="file"
+                id="formFile"
+              />
+              <button
+                class="btn btn-primary m-2"
+                type="button"
+                (click)="subirFoto()"
+              >
+                Subir Foto
+              </button>
+              
+    </div>
+    <div class="col-6">
+      <div class="col-6">
+        <img
+          src="http://localhost:8080/api_store/categories/upload/img/{{
+            data.category.photo
+          }}"
+          alt=""
+          class="img-thumbnail rounded"
+        />
+    </div>
+  </div>
+  <div class="row m-2">
+    <div class="col-2">
+      
+    </div>
+    
+  </div>
+ 
+</div>
+

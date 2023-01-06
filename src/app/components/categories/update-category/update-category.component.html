@@ -1,40 +1,68 @@
-<!-- Basic Modal -->
-  <div *ngIf="modalUpdateCategoryService.modal" class="modal" style="display: block;">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Actualizar Categoria</h5>
-          <button type="button" class="btn-close"  aria-label="Close" (click)="closeModal()"></button>
-        </div>
-        <div class="modal-body">
-         
-        
-        <!-- Multi Columns Form -->
-      <form class="row g-3" (ngSubmit)="onSubmit()" [formGroup]="updateCategoryForm">
-     
-        <div class="col-md-6">
-          <label for="name" class="form-label">Nombre</label>
-          <input type="text" class="form-control" id="name" formControlName="name">
-        </div>
-      
-        <div class="col-12">
-          <label for="description" class="form-label">Descripcion</label>
-          <input type="text" class="form-control" id="description" formControlName="description" placeholder="Introduzca una descripción">
-        </div>
-        
-        
-            
-       
-    
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
-          <button type="submit" class="btn btn-primary">Actualizar</button>
-        </div>
-      </form><!-- End Multi Columns Form -->   
-        
-        
-        </div>
-        
+
+
+<h1 mat-dialog-title>Actualizar Menu</h1>
+<div mat-dialog-content>
+  <form
+    class="row g-3"
+    (ngSubmit)="onSubmit()"
+    [formGroup]="updateCategoryForm"
+  >
+    <div class="col-md-12">
+      <label for="name" class="form-label">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        formControlName="name"
+        placeholder="Introduzca un nombre"
+      />
+
+      <div class="mt-1">
+        <app-alert-validation
+          *ngIf="updateCategoryForm.touched && updateCategoryForm.get('name')?.errors?.['required']"
+          [text]="'El campo es requerido'"
+        ></app-alert-validation>
+      </div>
+      <div class="mt-1">
+        <app-alert-validation
+          *ngIf="updateCategoryForm.touched && updateCategoryForm.get('name')?.errors?.['minlength']"
+          [text]="'El campo debe tener mas de 4 caracteres '"
+        ></app-alert-validation>
       </div>
     </div>
-  </div><!-- End Basic Modal-->
+
+    <div class="col-12">
+      <label for="description" class="form-label">Descripción</label>
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        formControlName="description"
+        placeholder="Introduzca una descripción"
+      />
+      <div class="mt-1">
+        <app-alert-validation
+          *ngIf="updateCategoryForm.touched && updateCategoryForm.get('description')?.errors?.['required']"
+          [text]="'El campo es requerido'"
+        ></app-alert-validation>
+      </div>
+      <div class="mt-1">
+        <app-alert-validation
+          *ngIf="updateCategoryForm.touched && updateCategoryForm.get('description')?.errors?.['minlength']"
+          [text]="'El campo debe tener mas de 4 caracteres'"
+        ></app-alert-validation>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="closeDialogUpdate()"
+      >
+        Cerrar
+      </button>
+      <button type="submit" class="btn btn-primary m-1">Crear</button>
+    </div>
+  </form>
+</div>

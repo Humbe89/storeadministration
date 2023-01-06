@@ -1,11 +1,15 @@
-<app-create-menu *ngIf="flagCreateCategory" (newEventEmitter)="ngOnInit()"></app-create-menu>
 
-<app-update-menu *ngIf="menu" [menu]="menu" (newEventEmitter)="ngOnInit()"></app-update-menu>
-<app-dialog-create-submenu *ngIf="menuAux" [menuAux]="menuAux" (newEventEmitter)="ngOnInit()"></app-dialog-create-submenu>
 
-<mat-card>
+
+
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title" style="font-weight: lighter">
+      Listado de Menus
+    </h3>
+    
   <div class=" mb-2">
-    <button type="button" class="btn btn-primary" (click)="createMenu()">
+    <button type="button" class="btn btn-primary" (click)="openCreateMenu()">
       <i class="bi bi-plus-circle"></i> Crear
     </button>
   </div>
@@ -39,8 +43,8 @@
         <td  mat-cell *matCellDef="let element">
           <p *ngIf="element.category">{{ element.category.name }} <span class="badge bg-primary">Categoria</span></p>
           <p *ngIf="element.submenuList.length > 0"> {{ element.submenuList[0].name }} <span class="badge bg-secondary">Submenu</span></p>
-          <p class="container mt-2" *ngIf="!element.category && element.submenuList <= 0">
-            <button type="button" class="btn btn-primary" (click)="createSubmenu(element)">
+          <p class="container mt-2" *ngIf="!element.category">
+            <button type="button" class="btn btn-primary" (click)="openCreateSubmenu(element)">
               <i class="bi bi-plus-circle"></i>
             </button>
           </p>
@@ -55,10 +59,11 @@
           <button
           type="button"
           class="btn btn-primary"
-          (click)="updateMenu(element)"
+          (click)="openUpdateMenu(element)"
         >
           <i class="bi bi-shield-fill-plus"></i>
         </button>
+        
         </td>
       </ng-container>
 
@@ -89,4 +94,6 @@
     >
     </mat-paginator>
   </div>
-</mat-card>
+ </div>
+
+ 

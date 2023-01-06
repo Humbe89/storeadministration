@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Category } from 'src/app/interfaces/category.interface';
 import { Product } from 'src/app/interfaces/product.interface';
-import { CategoryService } from 'src/app/services/category/category.service';
-import { ModalService } from 'src/app/services/modal/modal.service';
 import { ModaldetailService } from 'src/app/services/modaldetail/modaldetail.service';
 import { ModalUpdateProductService } from 'src/app/services/modalUpdateProduct/modal-update-product.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import Swal from 'sweetalert2';
+import { CreateProductComponent } from '../create-product/create-product.component';
+import { DetailProductComponent } from '../detail-product/detail-product.component';
+import { UpdateProductComponent } from '../update-product/update-product.component';
 
 @Component({
   selector: 'app-work-product',
@@ -40,13 +40,10 @@ export class WorkProductComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
+    public dialog: MatDialog,
     private productService: ProductService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private modalService: ModalService,
     private modalDetailService: ModaldetailService,
     public modalUpdateService: ModalUpdateProductService,
-    private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
@@ -57,16 +54,50 @@ export class WorkProductComponent implements OnInit {
     
 }
 
-  createProduct(): void {
-    this.flagModalCreate = true;
-   this.modalService.openModal();
-  }
+openCreateProduct(): void {
+  const dialogRef = this.dialog.open(CreateProductComponent, {
+    width: '1000px',
+    height: '490px',
+  });
 
-  updateProduct(product: Product): void {
-    console.log(product)
-    this.productUpdate = product;
-     this.modalUpdateService.openModal();
-  }
+  dialogRef.afterClosed().subscribe((result) => {
+    console.log('The dialog was closed');
+    this.productService.getProducts().subscribe((data: any)=>{
+      this.products = new MatTableDataSource<Product>(data);
+      this.products.paginator = this.paginator;
+    })
+  });
+}
+
+openUpdateProduct(product: Product): void {
+  const dialogRef = this.dialog.open(UpdateProductComponent, {
+    width: '750px',
+    height: '470px',
+    data: { product: product },
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    console.log('The dialog was closed');
+    this.productService.getProducts().subscribe((data: any)=>{
+      this.products = new MatTableDataSource<Product>(data);
+      this.products.paginator = this.paginator;
+    })
+  });
+}
+
+openDetailProduct(product: Product): void {
+  const dialogRef = this.dialog.open(DetailProductComponent, {
+    width: '750px',
+    height: '470px',
+    data: { product: product },
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    console.log('The dialog was closed');
+    
+  });
+}
+
 
   deleteProduct(id: any): void {
     

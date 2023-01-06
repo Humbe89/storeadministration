@@ -4,7 +4,7 @@ import { Category } from 'src/app/interfaces/category.interface';
 import { Product } from 'src/app/interfaces/product.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
 import Swal from 'sweetalert2';
-import { DialogData } from '../../products/detail-product/detail-product.component';
+
 
 @Component({
   selector: 'app-dialog',

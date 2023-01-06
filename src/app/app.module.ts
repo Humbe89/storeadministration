@@ -36,7 +36,8 @@ import {MatSelectModule} from '@angular/material/select';
 import { DialogCreateSubmenuComponent } from './components/menu/dialog-create-submenu/dialog-create-submenu.component';
 import { UpdateMenuComponent } from './components/menu/update-menu/update-menu.component';
 import { DetailCategoryComponent } from './components/categories/detail-category/detail-category.component';
-
+import { AlertValidationComponent } from './components/cglobal/alert-validation/alert-validation.component';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { DetailCategoryComponent } from './components/categories/detail-category
          DialogCreateSubmenuComponent,
          UpdateMenuComponent,
          DetailCategoryComponent,
+         AlertValidationComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ import { DetailCategoryComponent } from './components/categories/detail-category
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MdbModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,6 +9,6 @@ export interface Menu{
 
     category?: Category;
 
-    submenus?: Array<Menu>;
+    submenuList?: Array<Menu>;
 
 }

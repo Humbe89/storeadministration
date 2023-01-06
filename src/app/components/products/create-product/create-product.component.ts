@@ -1,11 +1,9 @@
-import { outputAst } from '@angular/compiler';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Category } from 'src/app/interfaces/category.interface';
 import { Product } from 'src/app/interfaces/product.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
-import { ModalService } from 'src/app/services/modal/modal.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import Swal from 'sweetalert2';
 
@@ -23,11 +21,10 @@ export class CreateProductComponent implements OnInit {
   @Output() newItemEvent = new EventEmitter<any>();
 
   constructor(
+    public dialogRef: MatDialogRef<CreateProductComponent>,
     private formBuilder: FormBuilder,
     private productService: ProductService,
-    private categoryService: CategoryService,
-    private router: Router,
-    public modalService: ModalService
+    private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
@@ -40,42 +37,45 @@ export class CreateProductComponent implements OnInit {
 
   initForm(): FormGroup {
     return this.formBuilder.group({
-      name: ['helado'],
-      description: ['chocolate'],
-      price: ['13'],
-      amount: ['10'],
-      discount: ['2'],
-      minStock: ['3'],
+      name: ['helado', [Validators.required]],
+      description: ['chocolate', [Validators.required]],
+      price: ['13', [Validators.required]],
+      amount: ['10', [Validators.required]],
+      discount: ['2', [Validators.required]],
+      minStock: ['3', [Validators.required]],
       active: [''],
-      productstatus: [''],
-      category: [''],
+      productstatus: ['', [Validators.required]],
+      category: ['', [Validators.required]],
     });
   }
 
-  closeModal() {
-    this.modalService.closeModal();
-    this.createProductForm.reset();
+  closeDialogCreate(): void {
+    this.dialogRef.close();
   }
 
   onSubmit(): void {
-    let product: Product = {
-      name: this.createProductForm.get('name')?.value,
-      description: this.createProductForm.get('description')?.value,
-      price: this.createProductForm.get('price')?.value,
-      amount: this.createProductForm.get('amount')?.value,
-      discount: this.createProductForm.get('discount')?.value,
-      minStock: this.createProductForm.get('minStock')?.value,
-      active: this.createProductForm.get('active')?.value,
-      productstatus: this.createProductForm.get('productstatus')?.value,
-      category: this.createProductForm.get('category')?.value,
-    };
-    console.log(product);
-    this.productService.createProduct(product).subscribe((data) => {
-      console.log(data);
+    if (this.createProductForm.invalid) {
+      Swal.fire('Formulario', 'Invalido', 'error');
+    } else {
+      let product: Product = {
+        name: this.createProductForm.get('name')?.value,
+        description: this.createProductForm.get('description')?.value,
+        price: this.createProductForm.get('price')?.value,
+        amount: this.createProductForm.get('amount')?.value,
+        discount: this.createProductForm.get('discount')?.value,
+        minStock: this.createProductForm.get('minStock')?.value,
+        active: this.createProductForm.get('active')?.value,
+        productstatus: this.createProductForm.get('productstatus')?.value,
+        category: this.createProductForm.get('category')?.value,
+      };
+      console.log(product);
+      this.productService.createProduct(product).subscribe((data) => {
+        console.log(data);
 
-      Swal.fire('Producto', 'Creado con exito', 'success');
-      this.newItemEvent.emit();
-      this.closeModal();
-    });
+        Swal.fire('Producto', 'Creado con exito', 'success');
+        this.newItemEvent.emit();
+        this.closeDialogCreate();
+      });
+    }
   }
 }
