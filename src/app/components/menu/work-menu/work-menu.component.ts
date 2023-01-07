@@ -16,6 +16,7 @@ import { TestTableComponent } from '../../testTable/test-table/test-table.compon
 import { style } from '@angular/animations';
 import { CreateMenuComponent } from '../create-menu/create-menu.component';
 import { UpdateMenuComponent } from '../update-menu/update-menu.component';
+import { ListSubmenusComponent } from '../../submenus/list-submenus/list-submenus.component';
 
 @Component({
   selector: 'app-work-menu',
@@ -31,12 +32,12 @@ export class WorkMenuComponent implements OnInit {
   flagCreateCategory: boolean = false;
   menu!: Menu; 
   menuAux!: Menu; 
-  modalRef: MdbModalRef<TestTableComponent> | null = null;
+  
+
   constructor(private menuService: MenuService, private router: Router,
      public dialog: MatDialog, public modalCreateMenuService: ModalCreateMenuService,
      public modalUpdateMenuService: ModalUpdateMenuService,
      public modalCreateSubmenuService: ModalCreateSubmenuService,
-     private modalService: MdbModalService
      ) {}
 
   
@@ -87,11 +88,19 @@ export class WorkMenuComponent implements OnInit {
     });
   }
 
+  openListSubmenu(submenuList: Menu[]): void {
+    const dialogRef = this.dialog.open(ListSubmenusComponent, {
+      width: '550px',
+      height: '400',
+      data: { submenuList: submenuList },
+    });
 
-  public updateMenu(menu: Menu): void {
-     this.menu = menu;
-     this.modalUpdateMenuService.openModal();
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
   }
+
 
   
   deleteMenu(id: any) {

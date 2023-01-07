@@ -3,7 +3,6 @@
   [product]="productDetail"
 ></app-detail-product>
 
-
 <!-- Default Card -->
 <div class="card">
   <div class="card-body">
@@ -11,9 +10,22 @@
       Listado de Productos
     </h3>
     <div class="mb-2">
-      <button type="button" class="btn btn-primary" (click)="openCreateProduct()">
+      <app-button
+        [classButton]="'btn btn-primary'"
+        [name]="'Crear'"
+        [claIcon]="'bi bi-plus-circle'"
+        (click)="openCreateProduct()"
+      ></app-button>
+      <!-- <button type="button" class="btn btn-primary" (click)="openCreateProduct()">
         <i class="bi bi-plus-circle"></i> Crear
-      </button>
+      </button> -->
+      <input
+        class="m-2"
+        type="text"
+        placeholder="Buscar por nombre"
+        #valor
+        (keyup)="search(valor.value)"
+      />
     </div>
 
     <div class="mat-elevation-z8">
@@ -61,13 +73,19 @@
             Actualizar
           </th>
           <td mat-cell *matCellDef="let element">
-            <button
+            <app-button
+              [classButton]="'btn btn-primary'"
+              [name]="''"
+              [claIcon]="'bi bi-shield-fill-plus'"
+              (click)="openUpdateProduct(element)"
+            ></app-button>
+            <!-- <button
               type="button"
               class="btn btn-primary"
               (click)="openUpdateProduct(element)"
             >
               <i class="bi bi-shield-fill-plus"></i>
-            </button>
+            </button> -->
           </td>
         </ng-container>
 
@@ -76,13 +94,19 @@
             Eliminar
           </th>
           <td mat-cell *matCellDef="let element">
-            <button
+            <app-button
+              [classButton]="'btn btn-danger'"
+              [name]="''"
+              [claIcon]="'bi bi-x-lg'"
+              (click)="deleteProduct(element.id)"
+            ></app-button>
+            <!--  <button
               type="button"
               class="btn btn-danger"
               (click)="deleteProduct(element.id)"
             >
               <i class="bi bi-x-lg"></i>
-            </button>
+            </button> -->
           </td>
         </ng-container>
 

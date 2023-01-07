@@ -97,8 +97,26 @@
 
  -->
 
-
- <h1 mat-dialog-title>Actualizar Menu</h1>
+<div class="row">
+  <div class="col-11">
+    <h1 mat-dialog-title>Actualizar Menu</h1>
+  </div>
+  <div class="col-1">
+    <app-button
+      style="float: right;"
+        [classButton]="'btn-close'"
+        (click)="closeDialogUpdate()"
+      ></app-button>
+   <!--  <button
+  style="position: absolute;"
+          type="button"
+          (click)="closeDialogUpdate()"
+          class="btn-close"
+          aria-label="Close"
+        ></button> -->
+  </div>
+</div>
+ 
 <div mat-dialog-content>
 
   <div class="form-check">
@@ -158,15 +176,13 @@
           </div>
 
           <div class="modal-footer">
-            <button
-              style="width: 70px;"
-              type="button"
-              class="btn btn-secondary"
-              (click)="closeDialogUpdate()"
-            >
-              Cerrar
-            </button>
-            <button type="submit" class="btn btn-primary m-1">Actualizar</button>
+            <app-button
+            style="float: right;"
+            [typeButton]="'submit'"
+              [classButton]="'btn btn-primary'"
+              [name]="'Actualizar'"
+            ></app-button>
+            <!-- <button type="submit" class="btn btn-primary m-1">Actualizar</button> -->
           </div>
         </form>
 </div>

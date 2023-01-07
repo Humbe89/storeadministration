@@ -54,4 +54,9 @@ export class ProductService {
     formData.append("id", id);
     return this.httpClient.post<Product>(`${this.url}/upload`, formData);
   }
+
+  search(valor: string){
+    console.log("Estoy en el servicio producto")
+   return  this.httpClient.get(`${this.url}/containing/${valor}`)
+  }
 }

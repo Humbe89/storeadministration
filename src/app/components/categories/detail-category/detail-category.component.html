@@ -93,14 +93,20 @@
   <h1 mat-dialog-title>Detalle Categoria</h1>
 </div>
 <div class="col-1">
-  <button
+  <app-button
+  style="float: right"
+  [classButton]="'btn-close'"
+  (click)="closeDialogDetails()"
+></app-button>
+
+<!--   <button
   style="position: absolute;"
           type="button"
           (click)="closeDialogDetails()"
           class="btn-close"
           aria-label="Close"
         ></button>
-</div>  
+ --></div>  
 </div>
 
 <div mat-dialog-content>

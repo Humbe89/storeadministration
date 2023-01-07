@@ -38,6 +38,8 @@ import { UpdateMenuComponent } from './components/menu/update-menu/update-menu.c
 import { DetailCategoryComponent } from './components/categories/detail-category/detail-category.component';
 import { AlertValidationComponent } from './components/cglobal/alert-validation/alert-validation.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { ListSubmenusComponent } from './components/submenus/list-submenus/list-submenus.component';
+import { ButtonComponent } from './components/cglobal/button/button.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
          UpdateMenuComponent,
          DetailCategoryComponent,
          AlertValidationComponent,
+         ListSubmenusComponent,
+         ButtonComponent,
   ],
   imports: [
     BrowserModule,

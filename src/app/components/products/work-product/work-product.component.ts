@@ -26,6 +26,8 @@ export class WorkProductComponent implements OnInit {
     'delete',
   ];
   products!: MatTableDataSource<Product>;
+
+  valor!: string;
   
   page!: number;
 
@@ -114,6 +116,23 @@ openDetailProduct(product: Product): void {
   showDetail(product: Product) {
     this.productDetail = product;
     this.modalDetailService.openModal();
+  }
+
+
+  search(valor: string){
+    if(valor)
+    {
+      this.productService.search(valor).subscribe((data: any)=>{
+        this.products = new MatTableDataSource<Product>(data);
+        this.products.paginator = this.paginator;
+      
+    })  
+    
+    }else{
+      this.ngOnInit();
+    }
+    
+    
   }
 
   
