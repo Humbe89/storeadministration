@@ -5,7 +5,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Menu } from 'src/app/interfaces/menu.interface';
 import { MenuService } from 'src/app/services/menu/menu.service';
-import { ModalCreateMenuService } from 'src/app/services/modalCreateMenu/modal-create-menu.service';
 import Swal from 'sweetalert2';
 import { DialogCreateSubmenuComponent } from '../dialog-create-submenu/dialog-create-submenu.component';
 import { CreateMenuComponent } from '../create-menu/create-menu.component';
@@ -31,7 +30,6 @@ export class WorkMenuComponent implements OnInit {
     private menuService: MenuService,
     private router: Router,
     public dialog: MatDialog,
-    public modalCreateMenuService: ModalCreateMenuService
   ) {}
 
   ngOnInit(): void {
