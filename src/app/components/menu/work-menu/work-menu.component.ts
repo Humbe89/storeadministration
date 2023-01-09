@@ -93,6 +93,7 @@ export class WorkMenuComponent implements OnInit {
 
   deleteMenu(id: any) {
     this.menuService.deleteMenu(id).subscribe((data) => {
+      console.log(data);
       Swal.fire('Menu', 'Eliminado con exito', 'success');
       this.ngOnInit();
     });
