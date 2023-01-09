@@ -1,20 +1,13 @@
 import {
   Component,
-  EventEmitter,
   Inject,
-  Input,
   OnInit,
-  Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { Category } from 'src/app/interfaces/category.interface';
-import { Menu } from 'src/app/interfaces/menu.interface';
 import { Submenu } from 'src/app/interfaces/submenu.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { MenuService } from 'src/app/services/menu/menu.service';
-import { ModalCreateSubmenuService } from 'src/app/services/modalCreateSubmenu/modal-create-submenu.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -57,6 +50,7 @@ export class DialogCreateSubmenuComponent implements OnInit {
           .getCategoriesWithMenuOrSubmenuNull()
           .subscribe((data) => {
             this.categories = data;
+            Swal.fire('Submenu', 'Creado con exito', 'success');
             this.closeDialogCreateSubmenu();
           });
       });

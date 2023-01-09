@@ -1,87 +1,79 @@
-
-
 <div class="row">
   <div class="col-11">
     <h1 mat-dialog-title>Detalle Producto</h1>
   </div>
   <div class="col-1">
-
     <button
-    style="float: right;"
-            type="button"
-            (click)="closeDialogDetails()"
-            class="btn-close"
-            aria-label="Close"
-          ></button> 
-  </div>  
+      style="float: right"
+      type="button"
+      (click)="closeDialogDetails()"
+      class="btn-close"
+      aria-label="Close"
+    ></button>
   </div>
-  
-  <div mat-dialog-content>
-    
-    <div class="row">
-      <div class="col-6">
-        <h2>Nombre: {{data.product.name}}</h2>
-      </div>
-      <div class="col-6">
-        <h3>Descripcion: {{data.product.description}}</h3>
-      </div>
-    </div>
+</div>
 
-    <div class="row">
-      <div class="col-6">
-        <ul class="list-group">
-          <li style="width: 150px; font-weight: bold" class="list-group-item">
-            Precio:
-            <span class="badge text-bg-primary">{{ data.product.price }}</span>
-          </li>
-          <li style="width: 150px; font-weight: bold" class="list-group-item">
-            Monto:
-            <span class="badge text-bg-primary">{{ data.product.amount }}</span>
-          </li>
-          <li style="width: 150px; font-weight: bold" class="list-group-item">
-            Category:
-            <span class="badge text-bg-primary">{{
-              data.product.category.name
-            }}</span>
-          </li>
-          <li style="width: 150px; font-weight: bold" class="list-group-item">
-            Estado:
-            <span class="badge text-bg-primary">{{
-              data.product.productstatus
-            }}</span>
-          </li>
-          <li style="width: 150px; font-weight: bold" class="list-group-item">
-            Activado:
-            <span class="badge text-bg-primary">{{ data.product.active }}</span>
-          </li>
-          <li style="width: 150px; font-weight: bold" class="list-group-item">
-            MinStock:
-            <span class="badge text-bg-primary">{{ data.product.minStock }}</span>
-          </li>
-        </ul>
-      </div>
-      <div class="col-4">
-        <img
-          src="http://localhost:8080/api_store/products/upload/img/{{
-            data.product.photo
-          }}"
-          alt=""
-          class="img-thumbnail rounded"
-        />
-        <label for="formFile" class="form-label">Subir Foto del producto</label>
-            <input
-              (change)="seleccionarFoto($event)"
-              class="form-control"
-              type="file"
-              id="formFile"
-            />
-            <button class="btn btn-primary m-2" type="button" (click)="subirFoto()">
-              Subir Foto
-            </button>
-      </div>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-6">
+      <h2>Nombre: {{ data.product.name }}</h2>
     </div>
-    
-   
+    <div class="col-6">
+      <h3>Descripcion: {{ data.product.description }}</h3>
+    </div>
   </div>
-  
-  
+
+  <div class="row">
+    <div class="col-6">
+      <ul class="list-group">
+        <li style="width: 150px; font-weight: bold" class="list-group-item">
+          Precio:
+          <span class="badge text-bg-primary">{{ data.product.price }}</span>
+        </li>
+        <li style="width: 150px; font-weight: bold" class="list-group-item">
+          Monto:
+          <span class="badge text-bg-primary">{{ data.product.amount }}</span>
+        </li>
+        <li style="width: 150px; font-weight: bold" class="list-group-item">
+          Category:
+          <span class="badge text-bg-primary">{{
+            data.product.category.name
+          }}</span>
+        </li>
+        <li style="width: 150px; font-weight: bold" class="list-group-item">
+          Estado:
+          <span class="badge text-bg-primary">{{
+            data.product.productstatus
+          }}</span>
+        </li>
+        <li style="width: 150px; font-weight: bold" class="list-group-item">
+          Activado:
+          <span class="badge text-bg-primary">{{ data.product.active }}</span>
+        </li>
+        <li style="width: 150px; font-weight: bold" class="list-group-item">
+          MinStock:
+          <span class="badge text-bg-primary">{{ data.product.minStock }}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="col-4">
+      <img
+        src="http://localhost:8080/api_store/products/upload/img/{{
+          data.product.photo
+        }}"
+        alt=""
+        class="img-thumbnail rounded"
+      />
+      <label for="formFile" class="form-label">Subir Foto del producto</label>
+      <input
+        (change)="seleccionarFoto($event)"
+        class="form-control"
+        type="file"
+        id="formFile"
+      />
+      <button class="btn btn-primary m-2" type="button" (click)="subirFoto()">
+        Subir Foto
+      </button>
+    </div>
+  </div>
+</div>

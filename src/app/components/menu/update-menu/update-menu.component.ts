@@ -1,12 +1,10 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Category } from 'src/app/interfaces/category.interface';
 import { Menu } from 'src/app/interfaces/menu.interface';
-import { Submenu } from 'src/app/interfaces/submenu.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { MenuService } from 'src/app/services/menu/menu.service';
-import { ModalUpdateMenuService } from 'src/app/services/modalUpdateMenu/modal-update-menu.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,10 +14,9 @@ import Swal from 'sweetalert2';
 })
 export class UpdateMenuComponent implements OnInit {
   categories!: Array<Category>;
-  
+
   active!: boolean;
- 
- 
+
   updateMenuForm!: FormGroup;
 
   constructor(
@@ -31,27 +28,27 @@ export class UpdateMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
     this.updateMenuForm = this.initForm();
-     
+
     if (this.data.menu.category == null) {
       this.updateMenuForm.get('category')?.disable();
       this.updateMenuForm.get('name')?.setValue(this.data.menu.name);
       this.active = false;
     } else {
       this.updateMenuForm.get('name')?.disable();
-      this.updateMenuForm.get('category')?.setValue(this.data.menu.category.name);
+      this.updateMenuForm
+        .get('category')
+        ?.setValue(this.data.menu.category.name);
       this.active = true;
-      console.log(this.active)
+      console.log(this.active);
     }
 
     this.categoryService
       .getCategoriesWithMenuOrSubmenuNull()
       .subscribe((data) => {
         this.categories = data;
-      }); 
+      });
   }
-
 
   initForm(): FormGroup {
     return this.formBuilder.group({
@@ -64,10 +61,8 @@ export class UpdateMenuComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  
-
   activate(val: any) {
-    console.log(val)
+    console.log(val);
     if (val) {
       this.updateMenuForm.get('name')?.disable();
       this.updateMenuForm.get('category')?.enable();
@@ -78,7 +73,7 @@ export class UpdateMenuComponent implements OnInit {
   }
 
   onSubmit() {
-     let menu: Menu;
+    let menu: Menu;
     if (this.updateMenuForm.get('category')?.value) {
       menu = {
         id: this.data.menu.id,
@@ -94,37 +89,11 @@ export class UpdateMenuComponent implements OnInit {
         submenuList: this.data.menu.submenuList,
       };
     }
-    
+
     this.menuService.updateMenu(menu).subscribe((data) => {
       console.log(data);
       Swal.fire('Menu', 'Actualizado con exito', 'success');
       this.closeDialogUpdate();
     });
- 
-    /* let menu: Menu;
-    let category: Category = form.form.controls.category.value;
-    if (this.activatedCategory == false) {
-      menu = {
-        id: this.menu.id,
-        name: category.name,
-        category: form.form.controls.category.value,
-       
-      };
-      console.log(menu);
-    } else {
-      menu = {
-        id: this.menu.id,
-        name: form.form.controls.name.value,
-        submenuList: this.menu.submenuList
-      }
-
-    }
-      //console.log(menu)
-      this.menuService.updateMenu(menu).subscribe((data) => {
-      console.log(data);
-      Swal.fire('Menu', 'Actualizado con exito', 'success');
-      this.closeModal();
-      this.newEventEmitter.emit();
-    });   */
   }
 }

@@ -1,8 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Product } from 'src/app/interfaces/product.interface';
-import { ModalService } from 'src/app/services/modal/modal.service';
-import { ModaldetailService } from 'src/app/services/modaldetail/modaldetail.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import Swal from 'sweetalert2';
 
@@ -16,27 +14,31 @@ export class DetailProductComponent implements OnInit {
 
   @Input() product!: Product;
 
-   fotoSeleccionada!: File;
+  fotoSeleccionada!: File;
 
-  constructor( public dialogRef: MatDialogRef<DetailProductComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, public modalDetailService: ModaldetailService, private productService: ProductService) {}
+  constructor(
+    public dialogRef: MatDialogRef<DetailProductComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private productService: ProductService
+  ) {}
 
   ngOnInit(): void {}
 
- 
   closeDialogDetails(): void {
     this.dialogRef.close();
   }
 
-  seleccionarFoto(event: any){
+  seleccionarFoto(event: any) {
     this.fotoSeleccionada = event.target.files[0];
   }
 
-  subirFoto(){
-    this.productService.uploadPhoto(this.fotoSeleccionada, this.data.product.id).subscribe((data: any)=>{
-      console.log(data);
-      this.data.product = data.Message;
-      Swal.fire('Foto', 'Subida con exito', 'success');
-    });
+  subirFoto() {
+    this.productService
+      .uploadPhoto(this.fotoSeleccionada, this.data.product.id)
+      .subscribe((data: any) => {
+        console.log(data);
+        this.data.product = data.Message;
+        Swal.fire('Foto', 'Subida con exito', 'success');
+      });
   }
 }

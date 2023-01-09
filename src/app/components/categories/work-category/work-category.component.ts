@@ -4,9 +4,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Category } from 'src/app/interfaces/category.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
-import { ModalCreateCategoryService } from 'src/app/services/modalCreateCategory/modal-create-category.service';
-import { ModalDetailCategoryService } from 'src/app/services/modalDetailCategory/modal-detail-category.service';
-import { ModalUpdateCategoryService } from 'src/app/services/modalUpdateCategory/modal-update-category.service';
 import Swal from 'sweetalert2';
 import { CreateCategoryComponent } from '../create-category/create-category.component';
 import { DetailCategoryComponent } from '../detail-category/detail-category.component';
@@ -36,9 +33,6 @@ export class WorkCategoryComponent implements OnInit, AfterViewInit {
   constructor(
     private categoryService: CategoryService,
     public dialog: MatDialog,
-    public modalCreateCategoryService: ModalCreateCategoryService,
-    public modalUpdateCategoryService: ModalUpdateCategoryService,
-    public modalDetailCategoryService: ModalDetailCategoryService
   ) {}
 
   /**

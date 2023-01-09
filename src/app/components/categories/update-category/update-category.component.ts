@@ -1,13 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output, Inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  Inject,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TestScheduler } from 'rxjs/testing';
 import { Category } from 'src/app/interfaces/category.interface';
-import { Menu } from 'src/app/interfaces/menu.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
-import { ModalCreateCategoryService } from 'src/app/services/modalCreateCategory/modal-create-category.service';
-import { ModalUpdateCategoryService } from 'src/app/services/modalUpdateCategory/modal-update-category.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,27 +19,22 @@ import Swal from 'sweetalert2';
 })
 export class UpdateCategoryComponent implements OnInit {
   updateCategoryForm!: FormGroup;
-  category!: Category
-  
-
-  
+  category!: Category;
 
   @Output() newEventEmitter = new EventEmitter<any>();
 
   constructor(
     public dialogRef: MatDialogRef<UpdateCategoryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuilder: FormBuilder,   
-    private categoryService: CategoryService,
-    
+    private formBuilder: FormBuilder,
+    private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data)
-    this.category = this.data.category
+    console.log(this.data);
+    this.category = this.data.category;
     this.updateCategoryForm = this.initForm();
     this.updateForm();
-
   }
 
   initForm(): FormGroup {
@@ -46,7 +43,7 @@ export class UpdateCategoryComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
- 
+
   updateForm() {
     this.updateCategoryForm.get('name')?.setValue(this.category.name);
     this.updateCategoryForm

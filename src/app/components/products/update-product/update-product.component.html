@@ -1,185 +1,177 @@
-
 <div class="row">
   <div class="col-11">
     <h1 mat-dialog-title>Actualizar Producto</h1>
   </div>
   <div class="col-1">
-
-     <button
-     
-      style="float: right; "
+    <button
+      style="float: right"
       type="button"
       (click)="closeDialogUpdate()"
       class="btn-close"
       aria-label="Close"
-    ></button> 
+    ></button>
   </div>
 </div>
 
- 
- <div mat-dialog-content>
-   <form class="row g-3" (ngSubmit)="onSubmit()" [formGroup]="updateProductForm">
-     <div class="col-md-5">
-       <label for="name" class="form-label">Nombre</label>
-       <input
-         type="text"
-         class="form-control"
-         id="name"
-         formControlName="name"
-       />
-       <div class="mt-1">
-         <p
-           style="color: red"
-           *ngIf="updateProductForm.touched && updateProductForm.get('name')?.errors?.['required']"
-         >
-           Requerido
-         </p>
-       </div>
-     </div>
- 
-     <div class="col-md-2">
-       <label for="price" class="form-label">Precio</label>
-       <input
-         type="number"
-         class="form-control"
-         id="price"
-         formControlName="price"
-       />
-       <div class="mt-1">
-         <p
-           style="color: red"
-           *ngIf="updateProductForm.touched && updateProductForm.get('price')?.errors?.['required']"
-         >
-           Requerido
-         </p>
-       </div>
-     </div>
-     <div class="col-md-2">
-       <label for="amount" class="form-label">Monto</label>
-       <input
-         type="number"
-         class="form-control"
-         id="amount"
-         formControlName="amount"
-       />
-       <div class="mt-1">
-         <p
-           style="color: red"
-           *ngIf="updateProductForm.touched && updateProductForm.get('amount')?.errors?.['required']"
-         >
-           Requerido
-         </p>
-       </div>
-     </div>
-     <div class="col-md-2">
-       <label for="minStock" class="form-label">Minimo Stock</label>
-       <input
-         type="number"
-         class="form-control"
-         id="minStock"
-         formControlName="minStock"
-       />
-       <div class="mt-1">
-         <p
-           style="color: red"
-           *ngIf="updateProductForm.touched && updateProductForm.get('minStock')?.errors?.['required']"
-         >
-           Requerido
-         </p>
-       </div>
-     </div>
-     <div class="col-12">
-       <label for="description" class="form-label">Descripción</label>
-       <input
-         type="text"
-         class="form-control"
-         id="description"
-         formControlName="description"
-         placeholder="Introduzca una descripción"
-       />
-       <div class="mt-1">
-         <p
-           style="color: red"
-           *ngIf="updateProductForm.touched && updateProductForm.get('description')?.errors?.['required']"
-         >
-           Requerido
-         </p>
-       </div>
-     </div>
- 
-     <div class="col-md-2">
-       <label for="discount" class="form-label">Descuento</label>
-       <input
-         type="number"
-         class="form-control"
-         id="discount"
-         formControlName="discount"
-       />
-       <div class="mt-1">
-         <p
-           style="color: red"
-           *ngIf="updateProductForm.touched && updateProductForm.get('discount')?.errors?.['required']"
-         >
-           Requerido
-         </p>
-       </div>
-     </div>
- 
-     <div class="col-md-4">
-       <label for="category" class="form-label">Categoria</label>
-       <select id="category" class="form-select" formControlName="category">
-        <option selected>{{product.category.name}}</option> 
-        <option
-           *ngFor="let category of categories"
-           [ngValue]="category"
-         >
-           {{ category.name }}
-         </option>
-       </select>
-       <div class="mt-1">
-         <p
-           style="color: red"
-           *ngIf="updateProductForm.touched && updateProductForm.get('category')?.errors?.['required']"
-         >
-           Requerido
-         </p>
-       </div>
-     </div>
- 
-     <div class="col-md-3">
-       <label for="category" class="form-label">Estado</label>
-       <select id="category" class="form-select" formControlName="productstatus">
-         <option selected></option>
-         <option *ngFor="let statu of status" [ngValue]="statu">
-           {{ statu }}
-         </option>
-       </select>
-       <div class="mt-1">
-         <p
-           style="color: red"
-           *ngIf="updateProductForm.touched && updateProductForm.get('productstatus')?.errors?.['required']"
-         >
-           Requerido
-         </p>
-       </div>
-     </div>
-     <div class="col-md-3">
-       <div class="form-check">
-         <input class="form-check-input" type="checkbox" id="active" />
-         <label class="form-check-label" for="active"> Activo </label>
-       </div>
-     </div>
- 
-     <div class="modal-footer">
-       <button
-         type="button"
-         class="btn btn-secondary"
-         (click)="closeDialogUpdate()"
-       >
-         Cerrar
-       </button>
-       <button type="submit" class="btn btn-primary m-1">Actualizar</button>
-     </div>
-   </form>
- </div>
- 
+<div mat-dialog-content>
+  <form class="row g-3" (ngSubmit)="onSubmit()" [formGroup]="updateProductForm">
+    <div class="col-md-5">
+      <label for="name" class="form-label">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        formControlName="name"
+      />
+      <div class="mt-1">
+        <p
+          style="color: red"
+          *ngIf="updateProductForm.touched && updateProductForm.get('name')?.errors?.['required']"
+        >
+          Requerido
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <label for="price" class="form-label">Precio</label>
+      <input
+        type="number"
+        class="form-control"
+        id="price"
+        formControlName="price"
+      />
+      <div class="mt-1">
+        <p
+          style="color: red"
+          *ngIf="updateProductForm.touched && updateProductForm.get('price')?.errors?.['required']"
+        >
+          Requerido
+        </p>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <label for="amount" class="form-label">Monto</label>
+      <input
+        type="number"
+        class="form-control"
+        id="amount"
+        formControlName="amount"
+      />
+      <div class="mt-1">
+        <p
+          style="color: red"
+          *ngIf="updateProductForm.touched && updateProductForm.get('amount')?.errors?.['required']"
+        >
+          Requerido
+        </p>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <label for="minStock" class="form-label">Minimo Stock</label>
+      <input
+        type="number"
+        class="form-control"
+        id="minStock"
+        formControlName="minStock"
+      />
+      <div class="mt-1">
+        <p
+          style="color: red"
+          *ngIf="updateProductForm.touched && updateProductForm.get('minStock')?.errors?.['required']"
+        >
+          Requerido
+        </p>
+      </div>
+    </div>
+    <div class="col-12">
+      <label for="description" class="form-label">Descripción</label>
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        formControlName="description"
+        placeholder="Introduzca una descripción"
+      />
+      <div class="mt-1">
+        <p
+          style="color: red"
+          *ngIf="updateProductForm.touched && updateProductForm.get('description')?.errors?.['required']"
+        >
+          Requerido
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <label for="discount" class="form-label">Descuento</label>
+      <input
+        type="number"
+        class="form-control"
+        id="discount"
+        formControlName="discount"
+      />
+      <div class="mt-1">
+        <p
+          style="color: red"
+          *ngIf="updateProductForm.touched && updateProductForm.get('discount')?.errors?.['required']"
+        >
+          Requerido
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <label for="category" class="form-label">Categoria</label>
+      <select id="category" class="form-select" formControlName="category">
+         <option selected>{{ product.category.name }}</option> 
+        <option *ngFor="let category of categories" [ngValue]="category">
+          {{ category.name }}
+        </option>
+      </select>
+      <div class="mt-1">
+        <p
+          style="color: red"
+          *ngIf="updateProductForm.touched && updateProductForm.get('category')?.errors?.['required']"
+        >
+          Requerido
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <label for="category" class="form-label">Estado</label>
+      <select id="category" class="form-select" formControlName="productstatus">
+        <option selected></option>
+        <option *ngFor="let statu of status" [ngValue]="statu">
+          {{ statu }}
+        </option>
+      </select>
+      <div class="mt-1">
+        <p
+          style="color: red"
+          *ngIf="updateProductForm.touched && updateProductForm.get('productstatus')?.errors?.['required']"
+        >
+          Requerido
+        </p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="active" />
+        <label class="form-check-label" for="active"> Activo </label>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <app-button
+       [name]="'Actualizar'"
+       [typeButton]="'submit'"
+       [classButton]="'btn btn-primary'"
+      >
+        
+      </app-button>
+      <!-- <button type="submit" class="btn btn-primary m-1">Actualizar</button> -->
+    </div>
+  </form>
+</div>

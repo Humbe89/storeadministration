@@ -27,7 +27,6 @@ import { WorkMenuComponent } from './components/menu/work-menu/work-menu.compone
 import { CreateMenuComponent } from './components/menu/create-menu/create-menu.component';
 import { DetailProductComponent } from './components/products/detail-product/detail-product.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogComponent } from './components/categories/dialog/dialog.component';
 import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -61,7 +60,6 @@ import { ButtonComponent } from './components/cglobal/button/button.component';
          WorkMenuComponent,
          CreateMenuComponent,
          DetailProductComponent,
-         DialogComponent,
          DialogCreateSubmenuComponent,
          UpdateMenuComponent,
          DetailCategoryComponent,

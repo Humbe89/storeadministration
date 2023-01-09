@@ -1,11 +1,15 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from 'src/app/interfaces/category.interface';
 import { Product } from 'src/app/interfaces/product.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
-import { ModalUpdateProductService } from 'src/app/services/modalUpdateProduct/modal-update-product.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import Swal from 'sweetalert2';
 
@@ -23,24 +27,22 @@ export class UpdateProductComponent implements OnInit {
 
   categories: Array<Category> = [];
 
-
   constructor(
     public dialogRef: MatDialogRef<UpdateProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private productService: ProductService,
-    private categoryService: CategoryService,
-    public modalUpdateService: ModalUpdateProductService
+    private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
     this.product = this.data.product;
-    console.log(this.product)
+    console.log(this.product);
     this.updateProductForm = this.initForm();
-     this.updateForm(this.product);
-     this.categoryService.getCategories().subscribe(data=>{
+    this.updateForm(this.product);
+    this.categoryService.getCategories().subscribe((data) => {
       this.categories = data;
-    })
+    });
   }
 
   initForm(): FormGroup {
@@ -68,8 +70,7 @@ export class UpdateProductComponent implements OnInit {
     this.updateProductForm
       .get('productstatus')
       ?.setValue(product.productstatus);
-    this.updateProductForm.get('category')?.setValue(product.category.name);
-    
+     this.updateProductForm.get('category')?.setValue(product.category.name); 
   }
 
   closeDialogUpdate(): void {
@@ -77,10 +78,10 @@ export class UpdateProductComponent implements OnInit {
   }
 
   onSubmit(): void {
-
-    if(this.updateProductForm.invalid){
+    if (this.updateProductForm.invalid) {
       Swal.fire('Formulario', 'Invalido', 'error');
-    }else{
+    } else {
+      this.updateProductForm.get('category')?.setValue(this.product.category);
       let product: Product = {
         id: this.product.id,
         name: this.updateProductForm.get('name')?.value,
@@ -91,18 +92,16 @@ export class UpdateProductComponent implements OnInit {
         minStock: this.updateProductForm.get('minStock')?.value,
         active: this.updateProductForm.get('active')?.value,
         productstatus: this.updateProductForm.get('productstatus')?.value,
-        category: this.updateProductForm.get('category')?.value,
+         category: this.updateProductForm.get('category')?.value 
       };
+      
       console.log(product);
       this.productService.updateProduct(product).subscribe((data: any) => {
         console.log(data.Product);
         Swal.fire('Producto', 'Actualizado con exito', 'success');
         this.newEventEmiter.emit();
-       this.closeDialogUpdate();
+        this.closeDialogUpdate();
       });
     }
-
-    
   }
-
 }

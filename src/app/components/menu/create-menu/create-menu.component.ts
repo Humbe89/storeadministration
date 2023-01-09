@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { Category } from 'src/app/interfaces/category.interface';
 import { Menu } from 'src/app/interfaces/menu.interface';
 import { CategoryService } from 'src/app/services/category/category.service';
@@ -24,7 +23,7 @@ export class CreateMenuComponent implements OnInit {
     public dialogRef: MatDialogRef<CreateMenuComponent>,
     private categoryService: CategoryService,
     private formBuilder: FormBuilder,
-    private menuService: MenuService,
+    private menuService: MenuService
   ) {}
 
   ngOnInit(): void {

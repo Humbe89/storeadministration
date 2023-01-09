@@ -4,16 +4,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Menu } from 'src/app/interfaces/menu.interface';
-import { Submenu } from 'src/app/interfaces/submenu.interface';
 import { MenuService } from 'src/app/services/menu/menu.service';
 import { ModalCreateMenuService } from 'src/app/services/modalCreateMenu/modal-create-menu.service';
-import { ModalCreateSubmenuService } from 'src/app/services/modalCreateSubmenu/modal-create-submenu.service';
-import { ModalUpdateMenuService } from 'src/app/services/modalUpdateMenu/modal-update-menu.service';
 import Swal from 'sweetalert2';
 import { DialogCreateSubmenuComponent } from '../dialog-create-submenu/dialog-create-submenu.component';
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { TestTableComponent } from '../../testTable/test-table/test-table.component';
-import { style } from '@angular/animations';
 import { CreateMenuComponent } from '../create-menu/create-menu.component';
 import { UpdateMenuComponent } from '../update-menu/update-menu.component';
 import { ListSubmenusComponent } from '../../submenus/list-submenus/list-submenus.component';
@@ -30,23 +24,21 @@ export class WorkMenuComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   id!: any;
   flagCreateCategory: boolean = false;
-  menu!: Menu; 
-  menuAux!: Menu; 
-  
+  menu!: Menu;
+  menuAux!: Menu;
 
-  constructor(private menuService: MenuService, private router: Router,
-     public dialog: MatDialog, public modalCreateMenuService: ModalCreateMenuService,
-     public modalUpdateMenuService: ModalUpdateMenuService,
-     public modalCreateSubmenuService: ModalCreateSubmenuService,
-     ) {}
-
-  
+  constructor(
+    private menuService: MenuService,
+    private router: Router,
+    public dialog: MatDialog,
+    public modalCreateMenuService: ModalCreateMenuService
+  ) {}
 
   ngOnInit(): void {
     this.menuService.getMenus().subscribe((data: any) => {
       this.menus = new MatTableDataSource<any>(data);
       this.menus.paginator = this.paginator;
-      console.log(this.menus)
+      console.log(this.menus);
     });
   }
 
@@ -101,10 +93,8 @@ export class WorkMenuComponent implements OnInit {
     });
   }
 
-
-  
   deleteMenu(id: any) {
-    this.menuService.deleteMenu(id).subscribe((data) => {      
+    this.menuService.deleteMenu(id).subscribe((data) => {
       Swal.fire('Menu', 'Eliminado con exito', 'success');
       this.ngOnInit();
     });
